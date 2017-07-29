@@ -1,7 +1,7 @@
 package datecalc
 
 import java.time.temporal.ChronoUnit
-import java.time.{Duration, LocalDateTime, LocalTime}
+import java.time.{DayOfWeek, Duration, LocalDateTime, LocalTime}
 
 import scala.annotation.tailrec
 
@@ -18,7 +18,11 @@ object DueDateCalculator {
   }
 
   private def getNextBusinessDay(day: LocalDateTime): LocalDateTime = {
-    day.plusDays(1).toLocalDate.atTime(startOfBusinessHours)
+    val nextBusinessDay = day.toLocalDate.getDayOfWeek match {
+      case DayOfWeek.FRIDAY => day.plusDays(3)
+      case _ => day.plusDays(1)
+    }
+    nextBusinessDay.toLocalDate.atTime(startOfBusinessHours)
   }
 
   @tailrec
