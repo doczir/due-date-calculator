@@ -68,7 +68,7 @@ object DueDateCalculator {
       if (turnaroundTime.toMinutes >= timeLeftOfDay.toMinutes) {
         addBusinessHours(getNextBusinessDay(submitDate), turnaroundTime.minus(timeLeftOfDay))
       } else {
-        addBusinessHours(submitDate.plus(turnaroundTime), turnaroundTime.minus(turnaroundTime))
+        addBusinessHours(submitDate.plus(turnaroundTime), Duration.ZERO)
       }
     }
   }
