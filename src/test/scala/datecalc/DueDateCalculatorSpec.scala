@@ -95,4 +95,13 @@ class DueDateCalculatorSpec extends FlatSpec with Matchers {
       DueDateCalculator.calculateDueDate(submitDate, turnaroundTime)
     }
   }
+
+  it should "throw exception when submit time is a not between 9AM and 5PM" in {
+    val submitDate = LocalDateTime.of(2017, 7, 28, 7, 0) // FRIDAY
+    val turnaroundTime = 1
+
+    assertThrows[IllegalArgumentException] {
+      DueDateCalculator.calculateDueDate(submitDate, turnaroundTime)
+    }
+  }
 }
