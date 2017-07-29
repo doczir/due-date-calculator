@@ -13,6 +13,7 @@ object DueDateCalculator {
 
   def calculateDueDate(submitDate: LocalDateTime, turnaroundTimeHours: Long): LocalDateTime = {
     require(turnaroundTimeHours >= 0, "Turnaround time must be greater than 0")
+    require(isWeekday(submitDate), "Submit date must be on a weekday")
 
     val turnaroundTime = Duration.ofHours(turnaroundTimeHours)
 
@@ -40,5 +41,11 @@ object DueDateCalculator {
         addDailyWork(startOfDay.plus(durationLeft), durationLeft.minus(durationLeft))
       }
     }
+  }
+
+  private def isWeekday(day: LocalDateTime): Boolean = day.getDayOfWeek match {
+    case DayOfWeek.SATURDAY => false
+    case DayOfWeek.SUNDAY => false
+    case _ => true
   }
 }
