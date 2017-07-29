@@ -34,7 +34,7 @@ object DueDateCalculator {
     if (durationLeft.toMinutes == 0) startOfDay
     else {
       val timeLeftOfDay = Duration.ofMinutes(ChronoUnit.MINUTES.between(startOfDay.toLocalTime, endOfBusinessHours))
-      if (durationLeft.toMinutes > timeLeftOfDay.toMinutes) {
+      if (durationLeft.toMinutes >= timeLeftOfDay.toMinutes) {
         addDailyWork(getNextBusinessDay(startOfDay), durationLeft.minus(timeLeftOfDay))
       } else if (durationLeft.toMinutes > dailyWork.toMinutes) {
         addDailyWork(getNextBusinessDay(startOfDay), durationLeft.minus(dailyWork))
