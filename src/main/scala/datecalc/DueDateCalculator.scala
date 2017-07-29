@@ -3,8 +3,6 @@ package datecalc
 import java.time.temporal.ChronoUnit
 import java.time.{Duration, LocalDateTime, LocalTime}
 
-
-
 object DueDateCalculator {
 
   private val startOfBusinessHours = LocalTime.of(9, 0)
@@ -17,11 +15,14 @@ object DueDateCalculator {
     var dueDate = submitDate
 
     if(timeLeftOfSubmitDay.getSeconds < turnaroundTime.getSeconds) {
-      dueDate = submitDate.plusDays(1).toLocalDate.atTime(startOfBusinessHours)
+      dueDate = getNextBusinessDay(submitDate)
       turnaroundTime = turnaroundTime.minus(timeLeftOfSubmitDay)
     }
 
     dueDate.plus(turnaroundTime)
   }
 
+  private def getNextBusinessDay(day: LocalDateTime): LocalDateTime = {
+    day.plusDays(1).toLocalDate.atTime(startOfBusinessHours)
+  }
 }
