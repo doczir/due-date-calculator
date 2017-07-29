@@ -48,5 +48,5 @@ object DueDateCalculator {
   }
 
   private def isWorkingHour(time: LocalTime):Boolean =
-    !time.isBefore(startOfBusinessHours) && !time.isAfter(endOfBusinessHours)
+    !time.isBefore(startOfBusinessHours) && time.isBefore(endOfBusinessHours)
 }
