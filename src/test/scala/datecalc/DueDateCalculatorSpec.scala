@@ -58,4 +58,13 @@ class DueDateCalculatorSpec extends FlatSpec with Matchers {
     actual should equal(expected)
   }
 
+  it should "skip weekends" in {
+    val submitDate = LocalDateTime.of(2017, 7, 28, 16, 0) // FRIDAY
+    val turnaroundTime = 2
+
+    val expected = LocalDateTime.of(2017, 7, 31, 10, 0) // MONDAY
+    val actual = DueDateCalculator.calculateDueDate(submitDate, turnaroundTime)
+
+    actual should equal(expected)
+  }
 }
