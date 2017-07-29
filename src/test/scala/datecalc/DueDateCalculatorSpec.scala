@@ -67,4 +67,14 @@ class DueDateCalculatorSpec extends FlatSpec with Matchers {
 
     actual should equal(expected)
   }
+
+  it should "work across multiple weeks" in {
+    val submitDate = LocalDateTime.of(2017, 7, 28, 16, 0) // FRIDAY
+    val turnaroundTime = 48 // 6 days
+
+    val expected = LocalDateTime.of(2017, 8, 7, 16, 0) // MONDAY
+    val actual = DueDateCalculator.calculateDueDate(submitDate, turnaroundTime)
+
+    actual should equal(expected)
+  }
 }
