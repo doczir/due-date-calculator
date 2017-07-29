@@ -17,7 +17,7 @@ object DueDateCalculator {
 
     val turnaroundTime = Duration.ofHours(turnaroundTimeHours)
 
-    addDailyWork(submitDate, turnaroundTime)
+    addBusinessHours(submitDate, turnaroundTime)
   }
 
   private def getNextBusinessDay(day: LocalDateTime): LocalDateTime = {
@@ -29,14 +29,14 @@ object DueDateCalculator {
   }
 
   @tailrec
-  private def addDailyWork(startOfDay: LocalDateTime, durationLeft: Duration): LocalDateTime = {
+  private def addBusinessHours(startOfDay: LocalDateTime, durationLeft: Duration): LocalDateTime = {
     if (durationLeft.toMinutes == 0) startOfDay
     else {
       val timeLeftOfDay = Duration.ofMinutes(ChronoUnit.MINUTES.between(startOfDay.toLocalTime, endOfBusinessHours))
       if (durationLeft.toMinutes >= timeLeftOfDay.toMinutes) {
-        addDailyWork(getNextBusinessDay(startOfDay), durationLeft.minus(timeLeftOfDay))
+        addBusinessHours(getNextBusinessDay(startOfDay), durationLeft.minus(timeLeftOfDay))
       } else {
-        addDailyWork(startOfDay.plus(durationLeft), durationLeft.minus(durationLeft))
+        addBusinessHours(startOfDay.plus(durationLeft), durationLeft.minus(durationLeft))
       }
     }
   }
