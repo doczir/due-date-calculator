@@ -65,7 +65,7 @@ object DueDateCalculator {
     if (turnaroundTime.toMinutes == 0) submitDate
     else {
       val timeLeftOfDay = Duration.ofMinutes(ChronoUnit.MINUTES.between(submitDate.toLocalTime, endOfBusinessHours))
-      if (turnaroundTime.toMinutes >= timeLeftOfDay.toMinutes) {
+      if (turnaroundTime.toMinutes > timeLeftOfDay.toMinutes) {
         addBusinessHours(getNextBusinessDay(submitDate), turnaroundTime.minus(timeLeftOfDay))
       } else {
         addBusinessHours(submitDate.plus(turnaroundTime), Duration.ZERO)

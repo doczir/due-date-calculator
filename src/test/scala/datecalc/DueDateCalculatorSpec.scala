@@ -113,14 +113,4 @@ class DueDateCalculatorSpec extends FlatSpec with Matchers {
       DueDateCalculator.calculateDueDate(submitDate, turnaroundTime)
     }
   }
-
-  it should "skip to next day at 5PM and never return exactly 5PM" in {
-    val submitDate = LocalDateTime.of(2017, 7, 27, 16, 0) // THURSDAY
-    val turnaroundTime = 1
-
-    val expected = LocalDateTime.of(2017, 7, 28, 9, 0) // FRIDAY
-    val actual = DueDateCalculator.calculateDueDate(submitDate, turnaroundTime)
-
-    actual should equal(expected)
-  }
 }
