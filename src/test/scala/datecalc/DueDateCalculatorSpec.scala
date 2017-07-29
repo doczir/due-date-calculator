@@ -77,4 +77,13 @@ class DueDateCalculatorSpec extends FlatSpec with Matchers {
 
     actual should equal(expected)
   }
+
+  it should "throw exception when turnaround time is negative" in {
+    val submitDate = LocalDateTime.of(2017, 7, 28, 9, 0) // FRIDAY
+    val turnaroundTime = -1
+
+    assertThrows[IllegalArgumentException] {
+      DueDateCalculator.calculateDueDate(submitDate, turnaroundTime)
+    }
+  }
 }
