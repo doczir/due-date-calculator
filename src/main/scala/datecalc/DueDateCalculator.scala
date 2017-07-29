@@ -12,6 +12,8 @@ object DueDateCalculator {
   private lazy val dailyWork =  Duration.ofMinutes(ChronoUnit.MINUTES.between(startOfBusinessHours, endOfBusinessHours))
 
   def calculateDueDate(submitDate: LocalDateTime, turnaroundTimeHours: Long): LocalDateTime = {
+    require(turnaroundTimeHours >= 0, "Turnaround time must be greater than 0")
+
     val turnaroundTime = Duration.ofHours(turnaroundTimeHours)
 
     addDailyWork(submitDate, turnaroundTime)
