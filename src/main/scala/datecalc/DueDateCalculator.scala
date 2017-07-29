@@ -9,7 +9,6 @@ object DueDateCalculator {
 
   private val startOfBusinessHours = LocalTime.of(9, 0)
   private val endOfBusinessHours = LocalTime.of(17, 0)
-  private lazy val dailyWork =  Duration.ofMinutes(ChronoUnit.MINUTES.between(startOfBusinessHours, endOfBusinessHours))
 
   def calculateDueDate(submitDate: LocalDateTime, turnaroundTimeHours: Long): LocalDateTime = {
     require(turnaroundTimeHours >= 0, "Turnaround time must be greater than 0")
@@ -36,8 +35,6 @@ object DueDateCalculator {
       val timeLeftOfDay = Duration.ofMinutes(ChronoUnit.MINUTES.between(startOfDay.toLocalTime, endOfBusinessHours))
       if (durationLeft.toMinutes >= timeLeftOfDay.toMinutes) {
         addDailyWork(getNextBusinessDay(startOfDay), durationLeft.minus(timeLeftOfDay))
-      } else if (durationLeft.toMinutes > dailyWork.toMinutes) {
-        addDailyWork(getNextBusinessDay(startOfDay), durationLeft.minus(dailyWork))
       } else {
         addDailyWork(startOfDay.plus(durationLeft), durationLeft.minus(durationLeft))
       }
