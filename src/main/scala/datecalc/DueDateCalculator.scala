@@ -11,12 +11,13 @@ object DueDateCalculator {
   def calculateDueDate(submitDate: LocalDateTime, turnaroundTimeHours: Long): LocalDateTime = {
     var turnaroundTime = Duration.ofHours(turnaroundTimeHours)
 
-    val timeLeftOfSubmitDay = Duration.ofMinutes(ChronoUnit.MINUTES.between(submitDate.toLocalTime, endOfBusinessHours))
     var dueDate = submitDate
+    var timeLeftOfDay = Duration.ofMinutes(ChronoUnit.MINUTES.between(dueDate.toLocalTime, endOfBusinessHours))
 
-    if(timeLeftOfSubmitDay.getSeconds < turnaroundTime.getSeconds) {
-      dueDate = getNextBusinessDay(submitDate)
-      turnaroundTime = turnaroundTime.minus(timeLeftOfSubmitDay)
+    while(timeLeftOfDay.getSeconds < turnaroundTime.getSeconds) {
+      dueDate = getNextBusinessDay(dueDate)
+      turnaroundTime = turnaroundTime.minus(timeLeftOfDay)
+      timeLeftOfDay = Duration.ofMinutes(ChronoUnit.MINUTES.between(dueDate.toLocalTime, endOfBusinessHours))
     }
 
     dueDate.plus(turnaroundTime)
