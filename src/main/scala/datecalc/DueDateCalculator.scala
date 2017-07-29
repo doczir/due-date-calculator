@@ -29,7 +29,7 @@ object DueDateCalculator {
   }
 
   @tailrec
-  def addDailyWork(startOfDay: LocalDateTime, durationLeft: Duration): LocalDateTime = {
+  private def addDailyWork(startOfDay: LocalDateTime, durationLeft: Duration): LocalDateTime = {
     if (durationLeft.toMinutes == 0) startOfDay
     else {
       val timeLeftOfDay = Duration.ofMinutes(ChronoUnit.MINUTES.between(startOfDay.toLocalTime, endOfBusinessHours))
