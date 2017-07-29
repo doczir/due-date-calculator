@@ -86,4 +86,13 @@ class DueDateCalculatorSpec extends FlatSpec with Matchers {
       DueDateCalculator.calculateDueDate(submitDate, turnaroundTime)
     }
   }
+
+  it should "throw exception when submit date is a weekend" in {
+    val submitDate = LocalDateTime.of(2017, 7, 29, 9, 0) // SATURDAY
+    val turnaroundTime = -1
+
+    assertThrows[IllegalArgumentException] {
+      DueDateCalculator.calculateDueDate(submitDate, turnaroundTime)
+    }
+  }
 }
