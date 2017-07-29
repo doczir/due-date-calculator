@@ -14,7 +14,9 @@ import scala.annotation.tailrec
   */
 object DueDateCalculator {
 
+  /** the start time of a business day (9AM) */
   private val startOfBusinessHours = LocalTime.of(9, 0)
+  /** the end time of a business day (5PM) */
   private val endOfBusinessHours = LocalTime.of(17, 0)
 
   /**
@@ -54,19 +56,19 @@ object DueDateCalculator {
     * Helper method for adding business hours to a date. Uses recursion. The method assumes working hours between
     * 9AM (inclusive) and 5PM (exclusive), ignores holidays and skips through weekends.
     *
-    * @param startOfDay   the submit date the turnaround time starts from
-    * @param durationLeft the turnaround time to add to the submit date
+    * @param submitDate   the submit date the turnaround time starts from
+    * @param turnaroundTime the turnaround time to add to the submit date
     * @return the due date
     */
   @tailrec
-  private def addBusinessHours(startOfDay: LocalDateTime, durationLeft: Duration): LocalDateTime = {
-    if (durationLeft.toMinutes == 0) startOfDay
+  private def addBusinessHours(submitDate: LocalDateTime, turnaroundTime: Duration): LocalDateTime = {
+    if (turnaroundTime.toMinutes == 0) submitDate
     else {
-      val timeLeftOfDay = Duration.ofMinutes(ChronoUnit.MINUTES.between(startOfDay.toLocalTime, endOfBusinessHours))
-      if (durationLeft.toMinutes >= timeLeftOfDay.toMinutes) {
-        addBusinessHours(getNextBusinessDay(startOfDay), durationLeft.minus(timeLeftOfDay))
+      val timeLeftOfDay = Duration.ofMinutes(ChronoUnit.MINUTES.between(submitDate.toLocalTime, endOfBusinessHours))
+      if (turnaroundTime.toMinutes >= timeLeftOfDay.toMinutes) {
+        addBusinessHours(getNextBusinessDay(submitDate), turnaroundTime.minus(timeLeftOfDay))
       } else {
-        addBusinessHours(startOfDay.plus(durationLeft), durationLeft.minus(durationLeft))
+        addBusinessHours(submitDate.plus(turnaroundTime), turnaroundTime.minus(turnaroundTime))
       }
     }
   }
