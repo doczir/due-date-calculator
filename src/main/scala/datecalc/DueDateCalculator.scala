@@ -25,7 +25,7 @@ object DueDateCalculator {
     * assumes working hours between 9AM and 5PM, ignores holidays and skips through weekends.
     *
     * @param submitDate          the submit date the turnaround time starts from
-    * @param turnaroundTimeHours the turnaround time to add to the submit date
+    * @param turnaroundTimeHours the turnaround time to add to the submit date (in hours)
     * @return the due date
     */
   def calculateDueDate(submitDate: LocalDateTime, turnaroundTimeHours: Long): LocalDateTime = {
